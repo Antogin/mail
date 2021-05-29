@@ -1,17 +1,25 @@
-import logo from './logo.svg';
+import {
+  Switch,
+  Route,
+  BrowserRouter,
+} from 'react-router-dom';
+
 import './App.scss';
+
+// Import pages
+import Messages from './pages/Messages';
 
 function App() {
   return (
-    <div className="flex h-screen overflow-hidden">
-      <header className="sticky top-0 bg-white border-b border-gray-200 z-30">
-        header
-      </header>
-
-      <main className="relative flex">
-      content
-      </main>
-    </div>
+    <>
+      <BrowserRouter>
+        <Switch>
+          <Route path="/messages">
+            <Messages />
+          </Route>
+        </Switch>
+      </BrowserRouter>
+    </>
   );
 }
 
