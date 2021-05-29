@@ -8,10 +8,26 @@ export const MessagesProvider = ({ children }) => {
 
     const [messages, setMessages] = useState([])
     const [message, setMessage] = useState(null)
+    const [page, setPage] = useState(1)
 
-    const getMessages = async (userId, params = {}) => {
+    const getMessages = async (userId) => {
+        const url = `${apiUrl}/realtors/${userId}/messages`
 
-        console.log('GA =>', params)
+        const data = await fetch(url)
+
+        const messagesResponse = await data.json()
+
+        setMessages(messagesResponse)
+        setPage(1)
+    }
+
+    const nextMessages = async (userId) => {
+        const nextPage = page + 1;
+
+        const params = {
+            page: nextPage
+        }
+
         const url = new URL(`${apiUrl}/realtors/${userId}/messages`);
 
         url.search = new URLSearchParams(params).toString();
@@ -20,7 +36,12 @@ export const MessagesProvider = ({ children }) => {
 
         const messagesResponse = await data.json()
 
-        setMessages(messagesResponse)
+        setMessages([...messages, ...messagesResponse])
+        if (messagesResponse.length === 0) {
+            setPage(0)
+        } else {
+            setPage(nextPage)
+        }
     }
 
     const getMessage = async (userId, messageId, params) => {
@@ -30,7 +51,7 @@ export const MessagesProvider = ({ children }) => {
         setMessage(messageResponse)
     }
 
-    return <MessagesContext.Provider value={{ getMessages, messages, getMessage, message }}>
+    return <MessagesContext.Provider value={{ page, getMessages, messages, getMessage, message, nextMessages }}>
         {children}
     </MessagesContext.Provider>
 }

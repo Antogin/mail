@@ -1,7 +1,8 @@
 function MessagesSidebar({
   msgSidebarOpen,
   onMessageClick,
-  messages
+  messages,
+  scrollRef
 }) {
   return (
     <div
@@ -23,6 +24,10 @@ function MessagesSidebar({
               </li>
             )
           })}
+
+          <li ref={scrollRef}>
+            loading
+          </li>
         </ul>
       </div>
     </div>
