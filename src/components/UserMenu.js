@@ -1,9 +1,13 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
+import { useHistory } from 'react-router';
+import { AuthContext } from '../context/auth';
 
 function UserMenu() {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const history = useHistory()
 
+  const { loginIn, getRealtors, realtor, realtors } = useContext(AuthContext)
   const trigger = useRef(null);
   const dropdown = useRef(null);
 
@@ -17,6 +21,18 @@ function UserMenu() {
     document.addEventListener('click', clickHandler);
     return () => document.removeEventListener('click', clickHandler);
   });
+
+  const onClick = async(id) => {
+    await loginIn(id)
+    setDropdownOpen(false)
+    history.push('/messages')
+  }
+
+  useEffect(() => {
+    if (dropdownOpen) {
+      getRealtors()
+    }
+  }, [dropdownOpen])
 
   // close if the esc key is pressed
   useEffect(() => {
@@ -43,33 +59,32 @@ function UserMenu() {
       {dropdownOpen ?
         <div
           className="origin-top-right z-10 absolute top-full right-0 min-w-44 bg-white border py-1.5 shadow-lg overflow-hidden mt-1"
-
           ref={dropdown}
           onFocus={() => setDropdownOpen(true)}
           onBlur={() => setDropdownOpen(false)}
         >
           <ul>
-            <li>
-              <button
-                className="text-sm flex items-center py-1 px-3"
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-              >
-                User 1
-              </button>
-            </li>
-            <li>
-              <button
-                className="text-sm flex items-center py-1 px-3"
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-              >
-                User 2
-              </button>
-            </li>
+
+            {realtors
+            .filter(({id}) => id !== realtor.id)
+            .map(realtor => {
+              return (
+                <li key={realtor.id}>
+                  <button
+                    className="text-sm flex items-center py-1 px-3"
+                    onClick={() => onClick(realtor.id)}
+                  >
+                    {realtor.name}
+                  </button>
+                </li>)
+            })}
+
           </ul>
         </div>
 
-        : null}
-    </div>
+        : null
+      }
+    </div >
   )
 }
 

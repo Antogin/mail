@@ -51,7 +51,16 @@ export const MessagesProvider = ({ children }) => {
         setMessage(messageResponse)
     }
 
-    return <MessagesContext.Provider value={{ page, getMessages, messages, getMessage, message, nextMessages }}>
+    const readMessage = async (userId, message) => {
+
+        const { id, read, ...rest } = message
+        await fetch(`${apiUrl}/realtors/${userId}/messages/${message.id}`, {
+            method: 'PATCH',
+            body: JSON.stringify({ body: 'test',read: true })
+        })
+    }
+
+    return <MessagesContext.Provider value={{ page, getMessages, messages, getMessage, message, nextMessages, readMessage }}>
         {children}
     </MessagesContext.Provider>
 }

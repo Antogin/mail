@@ -18,6 +18,11 @@ function MessagesSidebar({
                   <div className="flex items-center">
                     <div className="truncate">
                       <span className="text-sm font-medium text-gray-800">{message.contact.email}</span>
+                      {message.read
+                        ? null
+                        :
+                        <span className="inline-flex items-center justify-center h-5text-white bg-green-500 px-2 rounded">new</span>
+                      }
                     </div>
                   </div>
                 </button>
