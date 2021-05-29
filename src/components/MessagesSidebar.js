@@ -1,37 +1,7 @@
-const messages = [
-  {
-    "body": "Lorem Ipsum #10100 is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    "contact": {
-      "email": "wtaylor@gmail.com",
-      "firstname": "William",
-      "lastname": "Taylor",
-      "phone": "0661983101"
-    },
-    "date": "2021-05-03T13:25:52.979855",
-    "id": 10100,
-    "read": false,
-    "subject": "Appel #10100",
-    "type": "phone"
-  },
-  {
-    "body": "Lorem Ipsum #10101 is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    "contact": {
-      "email": "mdavis@gmail.com",
-      "firstname": "Michael",
-      "lastname": "Davis",
-      "phone": "0621446719"
-    },
-    "date": "2021-05-22T13:25:52.979880",
-    "id": 10101,
-    "read": false,
-    "subject": "Appel #10101",
-    "type": "phone"
-  },
-]
-
 function MessagesSidebar({
   msgSidebarOpen,
-  onMessageClick
+  onMessageClick,
+  messages
 }) {
   return (
     <div
