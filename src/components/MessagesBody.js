@@ -43,7 +43,7 @@ function MessagesBody() {
         </div>
         : null}
 
-      <div className="text-sm bg-white p-5">
+      <div className="text-sm bg-white p-5 message-content">
         <h2 className="text-xl justify-center mb-2 bold">
           {`${message?.contact?.firstname} ${message?.contact?.lastname}`}
         </h2>

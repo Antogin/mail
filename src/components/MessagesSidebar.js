@@ -22,7 +22,7 @@ function MessagesSidebar({
           {messages.map(message => {
             return (
               <li className="-mx-2" key={message.id}>
-                <Link className="flex items-center justify-between w-full p-2 rounded"
+                <Link className="flex items-center justify-between w-full p-2 rounded message-item"
                   to={`/messages/${message.id}`}>
                   <div className="flex mb-2">
                     <div className="m-5">
