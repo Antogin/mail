@@ -1,17 +1,13 @@
 import { Link } from "react-router-dom";
-import { formatRelativeTime } from "../utils/date";
 import { iconMap } from "../utils/ui";
 
-const truncateTxt = (length, initialText) => {
-  const txt = initialText.substring(0, length);
-  return `${txt} ...`
-}
+
 function MessagesSidebar({
   msgSidebarOpen,
-  onMessageClick,
   messages,
   scrollRef
 }) {
+
   return (
     <div
       id="messages-sidebar"
@@ -36,7 +32,7 @@ function MessagesSidebar({
                         </h2>
 
                         <span>
-                          {formatRelativeTime(new Date(message.date))}
+                          {message.relativeDate}
                         </span>
                       </div>
 
@@ -44,7 +40,7 @@ function MessagesSidebar({
                         {message.type === 'phone' ? 'Appel téléphonique depuis MeilleursAgents' : 'Message sur votre vitrine MeilleursAgents'}
                       </div>
                       <div className="text-gray-400">
-                        {truncateTxt(70, message.body)}
+                        {message.truncatedText}
                       </div>
                     </div>
                   </div>

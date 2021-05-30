@@ -1,4 +1,6 @@
-import { createContext, useCallback, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useMemo, useState } from "react";
+import { formatRelativeTime } from "../utils/date";
+import { truncateTxt } from "../utils/ui";
 import { AuthContext } from "./auth";
 
 const apiUrl = 'http://localhost:8080'
@@ -29,7 +31,7 @@ export const MessagesProvider = ({ children }) => {
         setPage(1)
     }, [setPage, setMessages])
 
-    const nextMessages = useCallback( async (userId) => {
+    const nextMessages = useCallback(async (userId) => {
         const nextPage = page + 1;
 
         const params = {
@@ -62,7 +64,8 @@ export const MessagesProvider = ({ children }) => {
         })
 
         const updatedMessages = messages.map((m) => {
-            if (m.id === message.id) {
+            if (m.id === message.id && !m.read) {
+                decrementReadCount()
                 return {
                     ...m,
                     read: true
@@ -72,7 +75,6 @@ export const MessagesProvider = ({ children }) => {
         })
 
         setMessages(updatedMessages)
-        decrementReadCount()
     }, [setMessages, decrementReadCount, messages])
 
     const getMessage = useCallback(async (userId, messageId) => {
@@ -85,7 +87,12 @@ export const MessagesProvider = ({ children }) => {
         setMessage({ ...messageResponse, read: true })
     }, [readMessage, setMessage])
 
-    return <MessagesContext.Provider value={{ page, getMessages, messages, getMessage, message, nextMessages, readMessage }}>
+
+    const formatedMessages = useMemo(() => messages.map((message) => {
+        return { ...message, truncatedText: truncateTxt(70, message.body), relativeDate: formatRelativeTime(new Date(message.date)) }
+    }), [messages])
+
+    return <MessagesContext.Provider value={{ page, getMessages, messages: formatedMessages, getMessage, message, nextMessages, readMessage }}>
         {children}
     </MessagesContext.Provider>
 }
