@@ -8,11 +8,12 @@ export const AuthProvider = ({ children }) => {
 
     const [realtors, setRealtors] = useState([])
     const [realtor, setRealtor] = useState(null)
+    const [unreadCount, setUreadCount] = useState(0)
 
     useEffect(() => {
         const savedRealtor = JSON.parse(localStorage.getItem('realtor'))
         if (savedRealtor) {
-            setRealtor(savedRealtor)
+            loginIn(savedRealtor.id)
         }
     }, [])
 
@@ -29,9 +30,16 @@ export const AuthProvider = ({ children }) => {
 
         localStorage.setItem('realtor', JSON.stringify(realtorResponse))
         setRealtor(realtorResponse)
+        setUreadCount(realtorResponse.unread_messages)
     }
 
-    return <AuthContext.Provider value={{ loginIn, getRealtors, realtor, realtors }}>
+    const decrementReadCount = () => {
+        if(unreadCount){
+            setUreadCount(unreadCount - 1)
+        }
+    }
+
+    return <AuthContext.Provider value={{ loginIn, getRealtors, realtor, realtors, decrementReadCount, unreadCount }}>
         {children}
     </AuthContext.Provider>
 }

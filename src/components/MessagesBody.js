@@ -5,17 +5,11 @@ import { MessagesContext } from "../context/messages";
 import format from 'date-fns/format'
 import { iconMap } from "../utils/ui";
 
-const body = "Lorem Ipsum #10101 is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-
-
 function MessagesBody() {
 
   const { id } = useParams()
   const { realtor } = useContext(AuthContext);
   const { getMessage, message } = useContext(MessagesContext)
-
-
-  console.log('GA => message', message)
 
   useEffect(() => {
     if (id && realtor) {
@@ -24,32 +18,33 @@ function MessagesBody() {
   }, [id, realtor])
 
   return (
-    <div className="flex-grow px-4 sm:px-6 md:px-5 py-6">
+    <div className="flex-grow px-4 sm:px-6 md:px-5 py-6 bg-gray-200">
       {message ?
-        <div className="text-sm bg-white p-3 mb-5 border border-gray-200 shadow-md">
+        <div className="text-sm bg-white p-3 mb-5 ">
           <div className="flex mb-2">
             <div className="m-5">{iconMap[message?.type]}</div>
             <div className="mt-1 pr-1">
-              <h2 className={`text-xl justify-center`}>
+              <h2 className={`text-xl justify-center font-bold`}>
                 {`${message.contact.firstname} ${message.contact.lastname}`}
               </h2>
-              <div className="">
-                Email: {message.contact.email}
+              <div className="flex justify-between w-72">
+                <div>Email: </div>
+                <div>{message.contact.email}</div>
               </div>
-              <div className="">
-                Téléphone: {message.contact.phone}
+              <div className="flex justify-between w-72">
+                <div> Téléphone: </div>
+                <div> {message.contact.phone} </div>
               </div>
             </div>
           </div>
         </div>
-
-
         : null}
-      <div className="text-sm bg-white p-3 border border-gray-200 shadow-md">
-        <h2 className={`text-xl justify-center`}>
+
+      <div className="text-sm bg-white p-3">
+        <h2 className="text-xl justify-center mb-2 bold">
           {`${message?.contact?.firstname} ${message?.contact?.lastname}`}
         </h2>
-        <div>
+        <div className="mb-2">
           {message?.date ? format(new Date(message.date), 'cc LLLL uuuu KK:mm') : null}
         </div>
         {message?.body}

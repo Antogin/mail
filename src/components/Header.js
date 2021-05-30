@@ -3,8 +3,7 @@ import UserMenu from '../components/UserMenu';
 import logo from './../assets/logo-meilleursagentspro-neg.svg'
 
 function Header({
-  sidebarOpen,
-  unreadMessages
+  unreadMessages,
 }) {
   return (
     <header className="sticky top-0 bg-blue-800 z-30">
@@ -16,7 +15,7 @@ function Header({
             <Link to='/messages'>
               <img src={logo} />
             </Link>
-            <span className="ml-4	inline-flex items-center rounded justify-center h-5 text-white bg-green-500 px-2">{unreadMessages}</span>
+            <span className="ml-4	inline-flex items-center rounded justify-center h-5 text-white bg-green-500 p-3">✉️ {unreadMessages}</span>
           </div>
 
           {/* Header: Right side */}

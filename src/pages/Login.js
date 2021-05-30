@@ -28,7 +28,7 @@ function Login() {
         <ul className="my-1">
 
           {realtors.map((realtor) => {
-            return <li className="flex px-2" key={realtor.id} onClick={() => onClick(realtor.id)}>
+            return <li className="flex px-2 cursor-pointer" key={realtor.id} onClick={() => onClick(realtor.id)}>
               <div className="w-9 h-9 rounded-full flex-shrink-0 bg-red-500 my-2 mr-3">
                 <img src={realtor.logo} />
               </div>

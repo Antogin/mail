@@ -18,7 +18,7 @@ function Messages() {
   const history = useHistory();
   const location = useLocation();
 
-  const { realtor } = useContext(AuthContext);
+  const { realtor, unreadCount } = useContext(AuthContext);
   const { getMessages, messages, nextMessages, page, readMessage } = useContext(MessagesContext);
 
   const hasNextPage = page !== 0;
@@ -48,7 +48,7 @@ function Messages() {
   return (
     <div className="flex h-screen overflow-hidden">
       <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
-        <Header unreadMessages={realtor?.unread_messages} sidebarOpen={msgSidebarOpen} />
+        <Header unreadMessages={unreadCount} sidebarOpen={msgSidebarOpen} realtor={realtor}/>
         <main className="relative flex">
           <MessagesSidebar
             scrollRef={scrollRef}
