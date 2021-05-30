@@ -30,11 +30,11 @@ function MessagesBody() {
               <h2 className={`text-xl justify-center font-bold`}>
                 {`${message.contact.firstname} ${message.contact.lastname}`}
               </h2>
-              <div className="flex justify-between w-72">
+              <div className="flex justify-between w-60">
                 <div>Email: </div>
                 <div className="text-blue-500">{message.contact.email}</div>
               </div>
-              <div className="flex justify-between w-72">
+              <div className="flex justify-between w-60">
                 <div> Téléphone: </div>
                 <div className="text-blue-500"> {message.contact.phone} </div>
               </div>
