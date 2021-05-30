@@ -13,9 +13,11 @@ function Header({
           {/* Header: Left side */}
           <div className="flex">
             <Link to='/messages'>
-              <img src={logo} />
+              <img src={logo} alt="logo" />
             </Link>
-            <span className="ml-4	inline-flex items-center rounded justify-center h-5 text-white bg-green-500 p-3">✉️ {unreadMessages}</span>
+            <span className="ml-4	inline-flex items-center rounded justify-center h-5 text-white bg-green-500 p-4">
+              <i className="mypro-icon mypro-icon-mail mr-2"></i>
+              {unreadMessages}</span>
           </div>
 
           {/* Header: Right side */}

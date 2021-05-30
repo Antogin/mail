@@ -3,14 +3,13 @@ import {
   Route,
   useHistory,
   useLocation,
-  useParams
 } from 'react-router-dom';
 
 import Header from '../components/Header';
 import MessagesSidebar from '../components/MessagesSidebar';
 import MessagesBody from '../components/MessagesBody';
 import { AuthContext } from '../context/auth';
-import { useContext, useEffect } from 'react';
+import { useCallback, useContext, useEffect } from 'react';
 import { MessagesContext } from '../context/messages';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 
@@ -21,34 +20,33 @@ function Messages() {
   const { realtor, unreadCount } = useContext(AuthContext);
   const { getMessages, messages, nextMessages, page, readMessage } = useContext(MessagesContext);
 
+  const msgSidebarOpen = location.pathname === '/messages';
   const hasNextPage = page !== 0;
 
   useEffect(() => {
     if (realtor) {
-      getMessages(realtor?.id, {
-        page_size: 20
-      })
+      getMessages(realtor?.id)
     }
-  }, [realtor]);
+  }, [realtor, getMessages]);
 
   const [scrollRef] = useInfiniteScroll({
     hasNextPage,
     onLoadMore: () => nextMessages(realtor?.id),
   });
 
-  const onMessageClick = (message) => {
+  const onMessageClick = useCallback((message) => {
     if (!message.read) {
       readMessage(realtor.id, message)
     }
     history.push(`/messages/${message.id}`);
-  };
+  }, [history, readMessage, realtor]);
 
-  const msgSidebarOpen = location.pathname === '/messages';
+
 
   return (
     <div className="flex h-screen overflow-hidden">
       <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
-        <Header unreadMessages={unreadCount} sidebarOpen={msgSidebarOpen} realtor={realtor}/>
+        <Header unreadMessages={unreadCount} sidebarOpen={msgSidebarOpen} realtor={realtor} />
         <main className="relative flex">
           <MessagesSidebar
             scrollRef={scrollRef}

@@ -3,7 +3,7 @@ import {
 } from 'react-router-dom';
 
 import { AuthContext } from '../context/auth';
-import { useContext, useEffect } from 'react';
+import { useCallback, useContext, useEffect } from 'react';
 
 function Login() {
   const { loginIn, getRealtors, realtors } = useContext(AuthContext)
@@ -11,13 +11,13 @@ function Login() {
 
   useEffect(() => {
     getRealtors()
-  }, [])
+  }, [getRealtors])
 
 
-  const onClick = async (id) => {
+  const onClick = useCallback(async (id) => {
     await loginIn(id)
     history.push(`/messages`);
-  }
+  }, [history, loginIn])
 
   return (
     <div className="col-span-full xl:col-span-6 bg-white shadow-lg rounded-sm border border-gray-200">
@@ -30,7 +30,7 @@ function Login() {
           {realtors.map((realtor) => {
             return <li className="flex px-2 cursor-pointer" key={realtor.id} onClick={() => onClick(realtor.id)}>
               <div className="w-9 h-9 rounded-full flex-shrink-0 bg-red-500 my-2 mr-3">
-                <img src={realtor.logo} />
+                <img src={realtor.logo} alt="Agency logo"/>
               </div>
               <div className="flex-grow flex items-center border-b border-gray-100 text-sm py-2">
                 <div className="self-center">{realtor.name} </div>

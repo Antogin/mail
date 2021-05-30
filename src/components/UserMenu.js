@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useContext } from 'react';
+import { useState, useRef, useEffect, useContext, useCallback } from 'react';
 import { useHistory } from 'react-router';
 import { AuthContext } from '../context/auth';
 
@@ -23,17 +23,17 @@ function UserMenu() {
     return () => document.removeEventListener('click', clickHandler);
   });
 
-  const onClick = async(id) => {
+  const onClick = useCallback(async (id) => {
     await loginIn(id)
     setDropdownOpen(false)
     history.push('/messages')
-  }
+  }, [setDropdownOpen, history, loginIn])
 
   useEffect(() => {
     if (dropdownOpen) {
       getRealtors()
     }
-  }, [dropdownOpen])
+  }, [dropdownOpen, getRealtors])
 
   // close if the esc key is pressed
   useEffect(() => {
@@ -52,9 +52,11 @@ function UserMenu() {
         className="inline-flex justify-center items-center w-full"
         onClick={() => setDropdownOpen(!dropdownOpen)}
       >
-        <img className="w-8 h-8 rounded-full" width="32" height="32" alt="User" src={realtor?.logo}/>
+        <img className="w-8 h-8 rounded-full" width="32" height="32" alt="User" src={realtor?.logo} />
         <div className="flex items-center truncate">
-          <span className="truncate ml-2 text-sm font-medium">🔽</span>
+          <span className="truncate ml-2 text-sm font-medium">
+            <i className="mypro-icon mypro-icon-arrow-down text-white"></i>
+          </span>
         </div>
       </button>
       {dropdownOpen ?
@@ -67,18 +69,18 @@ function UserMenu() {
           <ul>
 
             {realtors
-            .filter(({id}) => id !== realtor.id)
-            .map(realtor => {
-              return (
-                <li key={realtor.id}>
-                  <button
-                    className="text-sm flex items-center py-1 px-3"
-                    onClick={() => onClick(realtor.id)}
-                  >
-                    {realtor.name}
-                  </button>
-                </li>)
-            })}
+              .filter(({ id }) => id !== realtor.id)
+              .map(realtor => {
+                return (
+                  <li key={realtor.id}>
+                    <button
+                      className="text-sm flex items-center py-1 px-3"
+                      onClick={() => onClick(realtor.id)}
+                    >
+                      {realtor.name}
+                    </button>
+                  </li>)
+              })}
 
           </ul>
         </div>

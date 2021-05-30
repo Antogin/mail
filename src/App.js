@@ -1,4 +1,3 @@
-import { useContext } from 'react';
 import {
   Switch,
   Route,
@@ -6,15 +5,12 @@ import {
 } from 'react-router-dom';
 
 import './App.scss';
-import { AuthContext } from './context/auth';
 
 // Import pages
 import Messages from './pages/Messages';
 import Login from './pages/Login';
 
 function App() {
-  const { loginIn, getRealtors, realtor } = useContext(AuthContext)
-
   return (
     <>
       <BrowserRouter>

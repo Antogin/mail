@@ -1,6 +1,6 @@
 
 export const iconMap = {
-    'sms': '💬',
-    'phone': '📞',
-    'email': '📧'
+    'sms': 'sms',
+    'phone': 'phone',
+    'email': 'mail'
 }

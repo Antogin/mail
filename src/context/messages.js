@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useState } from "react";
 import { AuthContext } from "./auth";
 
 const apiUrl = 'http://localhost:8080'
@@ -12,7 +12,7 @@ export const MessagesProvider = ({ children }) => {
     const [page, setPage] = useState(1)
     const { decrementReadCount } = useContext(AuthContext);
 
-    const getMessages = async (userId) => {
+    const getMessages = useCallback(async (userId) => {
         const params = {
             sort: 'date:desc'
         }
@@ -27,9 +27,9 @@ export const MessagesProvider = ({ children }) => {
 
         setMessages(messagesResponse)
         setPage(1)
-    }
+    }, [setPage, setMessages])
 
-    const nextMessages = async (userId) => {
+    const nextMessages = useCallback( async (userId) => {
         const nextPage = page + 1;
 
         const params = {
@@ -52,23 +52,13 @@ export const MessagesProvider = ({ children }) => {
         } else {
             setPage(nextPage)
         }
-    }
+    }, [setPage, setMessages, messages, page])
 
-    const getMessage = async (userId, messageId, params) => {
-        const data = await fetch(`${apiUrl}/realtors/${userId}/messages/${messageId}`)
-        const messageResponse = await data.json()
-
-        if(!messageResponse.read){
-            readMessage(userId, messageResponse)
-        }
-        setMessage({ ...messageResponse, read: true })
-    }
-
-    const readMessage = async (userId, message) => {
+    const readMessage = useCallback(async (userId, message) => {
         const { id, read, ...rest } = message
         await fetch(`${apiUrl}/realtors/${userId}/messages/${message.id}`, {
             method: 'PATCH',
-            body: JSON.stringify({ body: 'test', read: true })
+            body: JSON.stringify({ ...rest, read: true })
         })
 
         const updatedMessages = messages.map((m) => {
@@ -83,7 +73,17 @@ export const MessagesProvider = ({ children }) => {
 
         setMessages(updatedMessages)
         decrementReadCount()
-    }
+    }, [setMessages, decrementReadCount, messages])
+
+    const getMessage = useCallback(async (userId, messageId) => {
+        const data = await fetch(`${apiUrl}/realtors/${userId}/messages/${messageId}`)
+        const messageResponse = await data.json()
+
+        if (!messageResponse.read) {
+            readMessage(userId, messageResponse)
+        }
+        setMessage({ ...messageResponse, read: true })
+    }, [readMessage, setMessage])
 
     return <MessagesContext.Provider value={{ page, getMessages, messages, getMessage, message, nextMessages, readMessage }}>
         {children}

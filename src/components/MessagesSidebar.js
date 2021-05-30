@@ -26,18 +26,26 @@ function MessagesSidebar({
                   to={`/messages/${message.id}`}>
                   <div className="flex mb-2">
                     <div className="m-5">
-                      {iconMap[message.type]}
+                      <i className={`mypro-icon mypro-icon-${iconMap[message.type]} ${message.read ? 'text-gray-500' : 'text-blue-500'}`}></i>
                     </div>
                     <div className="mt-1 pr-1">
-                      <h2 className={`text-xl justify-center ${message.read ? null : 'font-bold'}`}>
-                        {`${message.contact.firstname} ${message.contact.lastname}`}
-                      </h2>
-                      <div className="">
+                      <div className="flex justify-between">
+                        <h2 className={`text-xl ${message.read ? null : 'font-bold'}`}>
+
+                          {`${message.contact.firstname} ${message.contact.lastname}`}
+                        </h2>
+
+                        <span>
+                          {formatRelativeTime(new Date(message.date))}
+                        </span>
+                      </div>
+
+                      <div className="font-semibold text-xs	">
+                        {message.type === 'phone' ? 'Appel téléphonique depuis MeilleursAgents' : 'Message sur votre vitrine MeilleursAgents'}
+                      </div>
+                      <div className="text-gray-400">
                         {truncateTxt(70, message.body)}
                       </div>
-                    </div>
-                    <div className="p-3">
-                      {formatRelativeTime(new Date(message.date))}
                     </div>
                   </div>
                 </Link>
