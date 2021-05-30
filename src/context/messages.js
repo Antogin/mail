@@ -15,6 +15,8 @@ export const MessagesProvider = ({ children }) => {
     const { decrementReadCount } = useContext(AuthContext);
 
     const getMessages = useCallback(async (userId) => {
+        setMessages([])
+
         const params = {
             sort: 'date:desc'
         }
@@ -63,9 +65,10 @@ export const MessagesProvider = ({ children }) => {
             body: JSON.stringify({ ...rest, read: true })
         })
 
+        let updated = false;
         const updatedMessages = messages.map((m) => {
             if (m.id === message.id && !m.read) {
-                decrementReadCount()
+                updated = true;
                 return {
                     ...m,
                     read: true
@@ -74,7 +77,10 @@ export const MessagesProvider = ({ children }) => {
             return m
         })
 
-        setMessages(updatedMessages)
+        if(updated){
+            setMessages(updatedMessages)
+            decrementReadCount()
+        }
     }, [setMessages, decrementReadCount, messages])
 
     const getMessage = useCallback(async (userId, messageId) => {
@@ -91,6 +97,8 @@ export const MessagesProvider = ({ children }) => {
     const formatedMessages = useMemo(() => messages.map((message) => {
         return { ...message, truncatedText: truncateTxt(70, message.body), relativeDate: formatRelativeTime(new Date(message.date)) }
     }), [messages])
+
+    console.log('GA => formatedMessages', formatedMessages)
 
     return <MessagesContext.Provider value={{ page, getMessages, messages: formatedMessages, getMessage, message, nextMessages, readMessage }}>
         {children}
