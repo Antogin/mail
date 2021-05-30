@@ -31,20 +31,18 @@ function Messages() {
     }
   }, [realtor]);
 
-
-
   const [scrollRef] = useInfiniteScroll({
     hasNextPage,
     onLoadMore: () => nextMessages(realtor?.id),
   });
 
-
   const onMessageClick = (message) => {
-    console.log('GA => message', message.read)
     if (!message.read) {
       readMessage(realtor.id, message)
     }
-    // history.push(`/messages/${message.id}`);
+
+    console.log('GA => message', message)
+    history.push(`/messages/${message.id}`);
   };
 
   const msgSidebarOpen = location.pathname === '/messages';

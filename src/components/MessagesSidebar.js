@@ -1,3 +1,19 @@
+const iconMap = {
+  'sms': '📩',
+  'phone': '📞',
+  'email': '📧'
+}
+
+const contactMap = {
+  'sms': '📩',
+  'phone': '📞',
+  'email': '📧'
+}
+
+const truncateTxt = (length, initialText) => {
+  const txt = initialText.substring(0, length);
+  return `${txt} ...`
+}
 function MessagesSidebar({
   msgSidebarOpen,
   onMessageClick,
@@ -14,22 +30,27 @@ function MessagesSidebar({
           {messages.map(message => {
             return (
               <li className="-mx-2" key={message.id}>
-                <button className="flex items-center justify-between w-full p-2 rounded" onClick={() => onMessageClick(message)}>
-                  <div className="flex items-center">
-                    <div className="truncate">
-                      <span className="text-sm font-medium text-gray-800">{message.contact.email}</span>
-                      {message.read
-                        ? null
-                        :
-                        <span className="inline-flex items-center justify-center h-5text-white bg-green-500 px-2 rounded">new</span>
-                      }
+                <div className="flex items-center justify-between w-full p-2 rounded" onClick={() => onMessageClick(message)}>
+                  <div className="flex mb-2">
+                    <div className="m-5">
+                      {iconMap[message.type]}
+                    </div>
+                    <div className="mt-1 pr-1">
+                      <h2 className={`text-xl justify-center ${message.read ? null : 'font-bold'}`}>
+                        {`${message.contact.firstname} ${message.contact.lastname}`}
+                      </h2>
+                      <div className="">
+                        {truncateTxt(70, message.body)}
+                      </div>
+                    </div>
+                    <div>
+                      date
                     </div>
                   </div>
-                </button>
+                </div>
               </li>
             )
           })}
-
           <li ref={scrollRef}>
             loading
           </li>

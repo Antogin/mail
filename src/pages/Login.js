@@ -16,7 +16,6 @@ function Login() {
 
   const onClick = async (id) => {
     await loginIn(id)
-    console.log('done')
     history.push(`/messages`);
   }
 

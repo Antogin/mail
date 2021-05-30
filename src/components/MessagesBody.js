@@ -22,6 +22,26 @@ function MessagesBody() {
 
   return (
     <div className="flex-grow px-4 sm:px-6 md:px-5 py-6">
+      {message ?
+        <div className="text-sm bg-white p-3 mb-5 border border-gray-200 shadow-md">
+          <div className="flex mb-2">
+            <div className="m-5">📧</div>
+            <div className="mt-1 pr-1">
+              <h2 className={`text-xl justify-center`}>
+                {`${message.contact.firstname} ${message.contact.lastname}`}
+              </h2>
+              <div className="">
+                Email: {message.contact.email}
+              </div>
+              <div className="">
+                Téléphone: {message.contact.phone}
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        : null}
       <div className="text-sm bg-white p-3 border border-gray-200 shadow-md">
         {message?.body}
       </div>

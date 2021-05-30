@@ -7,7 +7,8 @@ function UserMenu() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const history = useHistory()
 
-  const { loginIn, getRealtors, realtor, realtors } = useContext(AuthContext)
+  const { loginIn, getRealtors, realtor, realtors } = useContext(AuthContext);
+
   const trigger = useRef(null);
   const dropdown = useRef(null);
 
@@ -45,15 +46,15 @@ function UserMenu() {
   });
 
   return (
-    <div className="relative inline-flex">
+    <div className="relative inline-flex w-20">
       <button
         ref={trigger}
-        className="inline-flex justify-center items-center group"
+        className="inline-flex justify-center items-center w-full"
         onClick={() => setDropdownOpen(!dropdownOpen)}
       >
-        <img className="w-8 h-8 rounded-full" width="32" height="32" alt="User" />
+        <img className="w-8 h-8 rounded-full" width="32" height="32" alt="User" src={realtor?.logo}/>
         <div className="flex items-center truncate">
-          <span className="truncate ml-2 text-sm font-medium">Acme</span>
+          <span className="truncate ml-2 text-sm font-medium">🔽</span>
         </div>
       </button>
       {dropdownOpen ?
