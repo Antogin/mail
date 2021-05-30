@@ -11,10 +11,16 @@ export const MessagesProvider = ({ children }) => {
     const [page, setPage] = useState(1)
 
     const getMessages = async (userId) => {
-        const url = `${apiUrl}/realtors/${userId}/messages`
+        const params = {
+            sort: 'date:desc'
+        }
+
+        const url = new URL(`${apiUrl}/realtors/${userId}/messages`);
+        url.search = new URLSearchParams(params).toString();
 
         const data = await fetch(url)
 
+        
         const messagesResponse = await data.json()
 
         setMessages(messagesResponse)
@@ -25,7 +31,8 @@ export const MessagesProvider = ({ children }) => {
         const nextPage = page + 1;
 
         const params = {
-            page: nextPage
+            page: nextPage,
+            sort: 'date:desc'
         }
 
         const url = new URL(`${apiUrl}/realtors/${userId}/messages`);
@@ -35,6 +42,7 @@ export const MessagesProvider = ({ children }) => {
         const data = await fetch(url)
 
         const messagesResponse = await data.json()
+        
 
         setMessages([...messages, ...messagesResponse])
         if (messagesResponse.length === 0) {

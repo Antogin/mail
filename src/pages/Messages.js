@@ -40,8 +40,6 @@ function Messages() {
     if (!message.read) {
       readMessage(realtor.id, message)
     }
-
-    console.log('GA => message', message)
     history.push(`/messages/${message.id}`);
   };
 

@@ -1,14 +1,5 @@
-const iconMap = {
-  'sms': '📩',
-  'phone': '📞',
-  'email': '📧'
-}
-
-const contactMap = {
-  'sms': '📩',
-  'phone': '📞',
-  'email': '📧'
-}
+import { formatRelativeTime } from "../utils/date";
+import { iconMap } from "../utils/ui";
 
 const truncateTxt = (length, initialText) => {
   const txt = initialText.substring(0, length);
@@ -25,7 +16,7 @@ function MessagesSidebar({
       id="messages-sidebar"
       className={`absolute z-20 top-0 bottom-0 w-full md:w-auto md:static md:top-auto md:bottom-auto -mr-px md:translate-x-0 transform transition-transform duration-200 ease-in-out ${msgSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
     >
-      <div className="sticky top-16 bg-white overflow-x-hidden overflow-y-auto no-scrollbar flex-shrink-0 border-r border-gray-200 md:w-72" style={{ height: 'calc(100vh - 64px)' }}>
+      <div className="sticky top-16 bg-white overflow-x-hidden overflow-y-auto no-scrollbar flex-shrink-0 border-r border-gray-200 md:w-96" style={{ height: 'calc(100vh - 64px)' }}>
         <ul className="mb-6">
           {messages.map(message => {
             return (
@@ -44,7 +35,7 @@ function MessagesSidebar({
                       </div>
                     </div>
                     <div>
-                      date
+                      {formatRelativeTime(new Date(message.date))}
                     </div>
                   </div>
                 </div>

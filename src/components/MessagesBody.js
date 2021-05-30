@@ -1,7 +1,9 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useMemo } from "react";
 import { useParams } from "react-router";
 import { AuthContext } from "../context/auth";
 import { MessagesContext } from "../context/messages";
+import format from 'date-fns/format'
+import { iconMap } from "../utils/ui";
 
 const body = "Lorem Ipsum #10101 is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
 
@@ -13,19 +15,20 @@ function MessagesBody() {
   const { getMessage, message } = useContext(MessagesContext)
 
 
+  console.log('GA => message', message)
+
   useEffect(() => {
     if (id && realtor) {
       getMessage(realtor.id, id)
     }
   }, [id, realtor])
 
-
   return (
     <div className="flex-grow px-4 sm:px-6 md:px-5 py-6">
       {message ?
         <div className="text-sm bg-white p-3 mb-5 border border-gray-200 shadow-md">
           <div className="flex mb-2">
-            <div className="m-5">📧</div>
+            <div className="m-5">{iconMap[message?.type]}</div>
             <div className="mt-1 pr-1">
               <h2 className={`text-xl justify-center`}>
                 {`${message.contact.firstname} ${message.contact.lastname}`}
@@ -43,6 +46,12 @@ function MessagesBody() {
 
         : null}
       <div className="text-sm bg-white p-3 border border-gray-200 shadow-md">
+        <h2 className={`text-xl justify-center`}>
+          {`${message?.contact?.firstname} ${message?.contact?.lastname}`}
+        </h2>
+        <div>
+          {message?.date ? format(new Date(message.date), 'cc LLLL uuuu KK:mm') : null}
+        </div>
         {message?.body}
       </div>
     </div>
