@@ -59,12 +59,15 @@ export const MessagesProvider = ({ children }) => {
     }, [setPage, setMessages, messages, page])
 
     const readMessage = useCallback(async (userId, message) => {
-        const { id, read, ...rest } = message
-        await fetch(`${apiUrl}/realtors/${userId}/messages/${message.id}`, {
-            method: 'PATCH',
-            body: JSON.stringify({ ...rest, read: true })
-        })
 
+        await fetch(`${apiUrl}/realtors/${userId}/messages/${message.id}`, {
+            body: JSON.stringify({ read: true }),
+            headers: {
+                "Content-Type": "application/json"
+            },
+            method: "PATCH"
+        })
+      
         let updated = false;
         const updatedMessages = messages.map((m) => {
             if (m.id === message.id && !m.read) {
@@ -77,7 +80,7 @@ export const MessagesProvider = ({ children }) => {
             return m
         })
 
-        if(updated){
+        if (updated) {
             setMessages(updatedMessages)
             decrementReadCount()
         }
