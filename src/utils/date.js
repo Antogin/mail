@@ -6,13 +6,13 @@ import isYesterday from 'date-fns/isYesterday'
 
 export const formatRelativeTime = (date) => {
 
-    if(isToday(date,new Date())) {
+    if (isToday(date)) {
         return format(date, "HH:mm")
     }
-    if(isYesterday(date,new Date() )) {
+    if (isYesterday(date)) {
         return 'hier'
     }
-    if(isThisWeek(date)){
+    if (isThisWeek(date)) {
         return format(date, "EEEE")
     }
 
