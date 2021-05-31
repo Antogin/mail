@@ -101,8 +101,6 @@ export const MessagesProvider = ({ children }) => {
         return { ...message, truncatedText: truncateTxt(70, message.body), relativeDate: formatRelativeTime(new Date(message.date)) }
     }), [messages])
 
-    console.log('GA => formatedMessages', formatedMessages)
-
     return <MessagesContext.Provider value={{ page, getMessages, messages: formatedMessages, getMessage, message, nextMessages, readMessage }}>
         {children}
     </MessagesContext.Provider>
